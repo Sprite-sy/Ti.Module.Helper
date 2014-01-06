@@ -1,4 +1,3 @@
-Ti.Module.Helper 
 一个杂七杂八的ti android module.
 ================
 
@@ -9,7 +8,7 @@ Ti.Module.Helper
  
 
 ###使用
-		1 百度定位
+	1 百度定位
 		var helper = require("com.sprite.helper");
 		var r = helper.getBDLocation( function(location) {
 			if (location.err != "ok" || !location.locType) {
@@ -23,6 +22,5 @@ Ti.Module.Helper
 		}); 
 		
 	2 其它
-	
-	helper.freeImageCache();
-	helper.systemGc();
+		helper.freeImageCache();
+		helper.systemGc();
