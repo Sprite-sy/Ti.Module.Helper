@@ -29,4 +29,4 @@
 		helper.systemGc();
 
 ###其它 
-	1.[设置AndroidManifest.xml](http://developer.baidu.com/map/geosdk-android-developv3.3.htm#.E8.AE.BE.E7.BD.AEAndroidManifest.xml)<br />  
+1.[设置AndroidManifest.xml](http://developer.baidu.com/map/geosdk-android-developv3.3.htm#.E8.AE.BE.E7.BD.AEAndroidManifest.xml)<br />  
