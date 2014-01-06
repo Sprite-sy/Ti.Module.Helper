@@ -1,0 +1,18 @@
+#
+# this is your module manifest and used by Titanium
+# during compilation, packaging, distribution, etc.
+#
+version: 0.1
+apiversion: 2
+description: My module
+author: Your Name
+license: Specify your license
+copyright: Copyright (c) 2013 by Your Company
+
+
+# these should not be edited
+name: helper
+moduleid: com.sprite.helper
+guid: d3dbe0ff-ab81-46c4-980f-9b65f0797d04
+platform: android
+minsdk: 3.1.3.GA
