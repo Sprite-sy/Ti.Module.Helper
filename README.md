@@ -9,20 +9,20 @@ Ti.Module.Helper
  
 
 ###使用
- 1 百度定位
- var helper = require("com.sprite.helper");
- var r = helper.getBDLocation( function(location) {
-	if (location.err != "ok" || !location.locType) {
-		//fail here
-		return;
-	}
-	console.log(location);
-	return;
-}, {
-	openGps: true
-}); 
-
-2 其它
-
-helper.freeImageCache();
-helper.systemGc();
+		1 百度定位
+		var helper = require("com.sprite.helper");
+		var r = helper.getBDLocation( function(location) {
+			if (location.err != "ok" || !location.locType) {
+				//fail here
+				return;
+			}
+			console.log(location);
+			return;
+		}, {
+			openGps: true
+		}); 
+		
+	2 其它
+	
+	helper.freeImageCache();
+	helper.systemGc();
