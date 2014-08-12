@@ -23,8 +23,12 @@
 		
 		需要修改 请参考http://developer.baidu.com/map/geosdk-android-developv3.3.htm#.E8.AE.BE.E7.BD.AEAndroidManifest.xml
 
-
-	2 其它
+    2 添加快捷方式
+        var Helper = require("com.sprite.helper");
+        var ret = Helper.addShortcut("com.your.package.YourActivity",
+            name, Titanium.App.Android.R.drawable.appicon);
+    
+    3 其它
 		helper.freeImageCache();
 		helper.systemGc();
 
