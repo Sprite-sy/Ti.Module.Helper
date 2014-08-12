@@ -9,6 +9,8 @@
 package com.sprite.helper;
 
 import java.util.HashMap;
+import java.lang.Object;
+import java.lang.Class;
 
 import org.appcelerator.kroll.KrollDict;
 import org.appcelerator.kroll.KrollFunction;
@@ -22,6 +24,8 @@ import org.appcelerator.kroll.common.Log;
 import android.app.Activity;
 import android.location.Location;
 import android.location.LocationProvider;
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
@@ -46,6 +50,40 @@ public class HelperModule extends KrollModule {
 		Log.d(TAG, "inside onAppCreate");
 		// put module init code that needs to run when the application is
 		// created
+	}
+
+	// Methods
+	@Kroll.method
+	public String addShortcut(String className, String name, int iconId) {
+		try {
+			// Adding shortcut for MainActivity
+			// on Home screen
+			Activity activity = TiApplication.getAppRootOrCurrentActivity();
+
+			Intent shortcutIntent = new Intent(
+					activity.getApplicationContext(), Class.forName(className));
+
+			shortcutIntent.setAction(Intent.ACTION_MAIN);
+
+			Intent addIntent = new Intent();
+			addIntent.putExtra("duplicate", false);
+			addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
+			addIntent
+					.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
+			addIntent.putExtra(
+					Intent.EXTRA_SHORTCUT_ICON_RESOURCE,
+					Intent.ShortcutIconResource.fromContext(
+							activity.getApplicationContext(), iconId));
+
+			addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
+
+			activity.getApplicationContext().sendBroadcast(addIntent);
+			return "ok";
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "exp";
+		}
 	}
 
 	// Methods
@@ -172,7 +210,7 @@ public class HelperModule extends KrollModule {
 
 	@Kroll.method
 	String getBDLocation(final KrollFunction callback, HashMap params) {
-		if (null!=mBDLocationCallback) {
+		if (null != mBDLocationCallback) {
 			return "exist";
 		}
 		if (null == mBDLocationClient) {
@@ -199,7 +237,8 @@ public class HelperModule extends KrollModule {
 				option.setScanSpan(l);
 			}
 			if (null != params.get("disableCache")) {
-				boolean b = ((Boolean) params.get("disableCache")).booleanValue();
+				boolean b = ((Boolean) params.get("disableCache"))
+						.booleanValue();
 				option.disableCache(b);
 			}
 			if (null != params.get("poiNumber")) {
@@ -211,7 +250,8 @@ public class HelperModule extends KrollModule {
 				option.setPoiDistance(l);
 			}
 			if (null != params.get("poiExtraInfo")) {
-				boolean b = ((Boolean) params.get("poiExtraInfo")).booleanValue();
+				boolean b = ((Boolean) params.get("poiExtraInfo"))
+						.booleanValue();
 				option.setPoiExtraInfo(b);
 			}
 			mBDLocationClient.setLocOption(option);
@@ -243,13 +283,13 @@ public class HelperModule extends KrollModule {
 	public class MyBDLocationListener implements BDLocationListener {
 		@Override
 		public void onReceiveLocation(BDLocation location) {
-			HashMap<String, Object> args = new HashMap<String, Object>();			
-			if (location==null) {
+			HashMap<String, Object> args = new HashMap<String, Object>();
+			if (location == null) {
 				args.put("err", "fail");
 				args.put("msg", "nullLocation");
 			} else {
 				args.put("err", "ok");
-				args.put("time", location.getTime());			
+				args.put("time", location.getTime());
 				args.put("latitude", location.getLatitude());
 				args.put("longitude", location.getLongitude());
 				args.put("city", location.getCity());
@@ -261,9 +301,10 @@ public class HelperModule extends KrollModule {
 					args.put("satellite", location.getSatelliteNumber());
 				} else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
 					args.put("locType", "NET");
-					args.put("addr",location.getAddrStr());
+					args.put("addr", location.getAddrStr());
 				}
-				Log.d(TAG, String.format("%f, %f", location.getLongitude(), location.getLatitude()));
+				Log.d(TAG, String.format("%f, %f", location.getLongitude(),
+						location.getLatitude()));
 			}
 			mBDLocationCallback.call(getKrollObject(), args);
 			mBDLocationCallback = null;
@@ -271,13 +312,13 @@ public class HelperModule extends KrollModule {
 		}
 
 		public void onReceivePoi(BDLocation location) {
-			HashMap<String, Object> args = new HashMap<String, Object>();			
-			if (location==null) {
+			HashMap<String, Object> args = new HashMap<String, Object>();
+			if (location == null) {
 				args.put("err", "fail");
 				args.put("msg", "nullLocation");
 			} else {
 				args.put("err", "ok");
-				args.put("time", location.getTime());			
+				args.put("time", location.getTime());
 				args.put("latitude", location.getLatitude());
 				args.put("longitude", location.getLongitude());
 				args.put("radius", location.getRadius());
@@ -290,13 +331,13 @@ public class HelperModule extends KrollModule {
 					args.put("satellite", location.getSatelliteNumber());
 				} else if (location.getLocType() == BDLocation.TypeNetWorkLocation) {
 					args.put("locType", "NET");
-					args.put("addr",location.getAddrStr());
+					args.put("addr", location.getAddrStr());
 				}
 				if (location.hasPoi()) {
-					args.put("poi",location.getPoi());
+					args.put("poi", location.getPoi());
 				}
 			}
-		
+
 			mBDLocationCallback.call(getKrollObject(), args);
 			mBDLocationCallback = null;
 			mBDLocationClient.stop();
